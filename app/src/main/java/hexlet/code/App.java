@@ -5,39 +5,37 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.Callable;
 
-@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
+@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0", separator = ":",
         description = "Compares two configuration files and shows a difference.")
 
-public class App implements Runnable {
+public class App implements Callable<String> {
 
-    @Parameters(index = "0", description = "Path to first file.")
-    private File filepath1;
-
-    @Parameters(index = "1", description = "Path to second file.")
-    private File filepath2;
-
-    @Option(names = {"-f", "--format"}, description = "Output format [default: stylish]", defaultValue = "stylish")
+    @Option(names = {"-f", "--format"}, description = "Output format @|italic [default: stylish]|@",
+            defaultValue = "stylish")
     private String format;
 
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
-    private boolean helpRequested;
+    @Parameters(index = "0", description = "Path to first file.")
+    private String filepath1;
 
-    @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
-    private boolean versionRequested;
+    @Parameters(index = "1", description = "Path to second file.")
+    private String filepath2;
 
     @Override
-    public void run() {
-        if (versionRequested) {
-            System.out.println("gendiff 1.0");
-        }
-        if (helpRequested) {
-            System.out.println("Help information");
+    public String call() throws IOException {
+        try {
+            System.out.println(Differ.generate(filepath1, filepath2));
+            return "0";
+        } catch (Exception e) {
+            System.out.println("Check filepath");
+            return "1";
         }
     }
 
-    public static void main(String[] args) {
-        CommandLine.run(new App(), args);
+    public static void main(String... args) {
+        int exitCode = new CommandLine(new App()).execute(args);
+        System.exit(exitCode);
     }
 }
