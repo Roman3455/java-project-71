@@ -1,10 +1,23 @@
-build:
-	./gradlew clean build installDist
+.DEFAULT_GOAL := build-run
 
+setup:
+	./gradlew wrapper --gradle-version 8.5
+clean:
+	./gradlew clean
+build:
+	./gradlew clean build
+install:
+	./gradlew clean install
 run-dist:
 	./build/install/app/bin/app
-
-try-example:
-	./build/install/app/bin/app /Users/s.roman3455/Documents/IT/Education/Hexlet/Java_developer/Projects/java-project-71/app/src/main/resources/file1.json /Users/s.roman3455/Documents/IT/Education/Hexlet/Java_developer/Projects/java-project-71/app/src/main/resources/file2.json
+test:
+	./gradlew test
+report:
+	./gradlew jacocoTestReport
+lint:
+	./gradlew checkstyleMain
+check-deps:
+	./gradlew dependencyUpdates -Drevision=release
+build-run: build run
 
 .PHONY: build
