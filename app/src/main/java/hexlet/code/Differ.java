@@ -12,10 +12,9 @@ import java.util.TreeMap;
 
 public class Differ {
 
-    public static String generate(String filePath1, String filePath2) throws IOException {
-
-        var fileContent1 = Files.readString(Paths.get(filePath1));
-        var fileContent2 = Files.readString(Paths.get(filePath2));
+    public static String generate(String filepath1, String filepath2) throws IOException {
+        var fileContent1 = Files.readString(Paths.get(filepath1));
+        var fileContent2 = Files.readString(Paths.get(filepath2));
 
         var firstDataMap = getData(fileContent1);
         var secondDataMap = getData(fileContent2);
@@ -25,18 +24,17 @@ public class Differ {
         StringBuilder result = new StringBuilder("{\n");
         for (var entry : unitedData.entrySet()) {
             var key = entry.getKey();
-            var value = entry.getValue();
             var containsFirstData = firstDataMap.containsKey(key);
             var containsSecondData = secondDataMap.containsKey(key);
 
             if (containsFirstData && containsSecondData && firstDataMap.get(key).equals(secondDataMap.get(key))) {
-                result.append("    " + key + ": " + value.toString() + "\n");
+                result.append("    " + key + ": " + entry.getValue().toString() + "\n");
             } else {
                 if (containsFirstData) {
-                    result.append("  - " + key + ": " + value.toString() + "\n");
+                    result.append("  - " + key + ": " + firstDataMap.get(key).toString() + "\n");
                 }
                 if (containsSecondData) {
-                    result.append("  + " + key + ": " + value.toString() + "\n");
+                    result.append("  + " + key + ": " + secondDataMap.get(key).toString() + "\n");
                 }
             }
         }
@@ -45,9 +43,9 @@ public class Differ {
         return result.toString();
     }
 
-    public static Map<String, Object> getData(String content) throws JsonProcessingException {
+    private static Map<String, Object> getData(String content) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(content, new TypeReference<Map<String, Object>>() {
+        return objectMapper.readValue(content, new TypeReference<>() {
         });
     }
 }

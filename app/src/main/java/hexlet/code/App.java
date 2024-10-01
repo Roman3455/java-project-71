@@ -29,7 +29,7 @@ public class App implements Callable<String> {
             System.out.println(Differ.generate(filepath1, filepath2));
             return "0";
         } catch (Exception e) {
-            System.out.println("Check filepath");
+            System.out.println("File does not exist or the filepath is incorrect");
             return "1";
         }
     }
