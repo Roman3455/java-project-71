@@ -23,6 +23,7 @@ jobs:
           gradle-version: 8.7
           
       # Make Build
+      - run: ./gradlew wrapper --gradle-version 8.7
       - run: ./gradlew clean
       - run: ./gradlew build
       - run: ./gradlew installDist
