@@ -15,6 +15,6 @@ report:
 lint:
 	./gradlew checkstyleMain checkstyleTest
 
-build-run: clean build installDist run-dist lint test report
+build-run: clean build installDist lint test report run-dist
 
 .PHONY: build
