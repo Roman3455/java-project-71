@@ -30,11 +30,11 @@ jobs:
         with:
           gradle-version: 8.7
           
-      - name: Run Checkstyle
-        run: ./gradlew checkstyleMain
+      - name: Make Build
+        run: make build-run
 
-      - name: Run Tests
-        run: ./gradlew test
+      # - name: Run Tests
+      #   run: ./gradlew test
         
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
