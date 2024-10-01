@@ -21,17 +21,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
-          
-      # Make Build
-      - run: ./gradlew wrapper --gradle-version 8.7
-      - run: ./gradlew clean
-      - run: ./gradlew build
-      - run: ./gradlew installDist
-      - run: ./gradlew test
-      - run: ./gradlew checkstyleMain
 
-      # - name: Run Tests
-      #   run: ./gradlew test
+      - name: Set up Make
+        run: sudo apt-get install make
+
+      - name: Run make command
+        run: make build-run
         
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
