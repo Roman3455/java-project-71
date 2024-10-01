@@ -15,6 +15,6 @@ report:
 lint:
 	make -C app lint
 
-build-run: clean build installDist run-dist lint test report
+build-run: clean build installDist lint test report run-dist
 
 .PHONY: build
