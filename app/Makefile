@@ -11,10 +11,9 @@ run-dist:
 test:
 	./gradlew test
 report:
-	./gradlew test jacocoTestReport
+	./gradlew jacocoTestReport
 lint:
-	./gradlew checkstyleMain
-	./gradlew checkstyleTest
+	./gradlew checkstyleMain checkstyleTest
 
 build-run: clean build installDist run-dist lint test report
 
