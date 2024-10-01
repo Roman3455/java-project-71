@@ -18,15 +18,11 @@ jobs:
           distribution: 'temurin'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-
-      - name: Set up Make
-        run: sudo apt-get install make
-
-      - name: Run make command
-        run: make build-run
+          arguments: build-run
+          build-root-directory: app
         
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
