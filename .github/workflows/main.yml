@@ -22,8 +22,12 @@ jobs:
         with:
           gradle-version: 8.7
           
-      - name: Make Build
-        run: make build-run
+      # Make Build
+      - run: ./gradlew clean
+      - run: ./gradlew build
+      - run: ./gradlew installDist
+      - run: ./gradlew test
+      - run: ./gradlew checkstyleMain
 
       # - name: Run Tests
       #   run: ./gradlew test
