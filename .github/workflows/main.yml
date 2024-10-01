@@ -23,6 +23,10 @@ jobs:
       - name: Make build-run
         working-directory: app
         run: make build-run
+
+      - name: Test & Report
+        working-directory: app
+        run: ./gradlew test jacocoTestReport
         
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
