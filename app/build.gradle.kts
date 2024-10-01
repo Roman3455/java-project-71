@@ -17,6 +17,11 @@ repositories {
     mavenCentral()
 }
 
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir("./reports/jacoco")
+}
+
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.1")
@@ -27,6 +32,16 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.jacocoTestReport { reports { xml.required.set(true) } }
+tasks.jacocoTestReport {
+    dependsOn (tasks.test)
+            reports {
+                xml.required = true
+            }
+}
+
+
+
+//tasks.jacocoTestReport { reports { xml.required.set(true) } }
