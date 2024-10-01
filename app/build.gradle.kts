@@ -2,11 +2,10 @@ plugins {
     application
     checkstyle
     jacoco
-    id("java")
+    java
 }
 
 group = "hexlet.code"
-
 version = "1.0-SNAPSHOT"
 
 application {
@@ -15,11 +14,6 @@ application {
 
 repositories {
     mavenCentral()
-}
-
-jacoco {
-    toolVersion = "0.8.12"
-    reportsDirectory = layout.buildDirectory.dir("./reports/jacoco")
 }
 
 dependencies {
@@ -38,10 +32,6 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn (tasks.test)
             reports {
-                xml.required = true
+                xml.required.set(true)
             }
 }
-
-
-
-//tasks.jacocoTestReport { reports { xml.required.set(true) } }
