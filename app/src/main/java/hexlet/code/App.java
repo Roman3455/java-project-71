@@ -27,6 +27,7 @@ public class App implements Callable<String> {
     public String call() throws IOException {
         try {
             System.out.println(Differ.generate(filepath1, filepath2));
+            System.out.println(Parser.generate(filepath1, filepath2));
             return "0";
         } catch (Exception e) {
             System.out.println("File does not exist or the filepath is incorrect");

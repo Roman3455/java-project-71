@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DifferTest {
+public class ParserTest {
 
     private static String getFixturePath(String fileName) {
         return Paths.get("src", "test", "resources", "fixtures", fileName)
@@ -16,8 +16,8 @@ public class DifferTest {
 
     @Test
     public void generateSameFilesTest() throws IOException {
-        var filePath1 = getFixturePath("sameFile1.json");
-        var filePath2 = getFixturePath("sameFile2.json");
+        var filePath1 = getFixturePath("sameFile1.yaml");
+        var filePath2 = getFixturePath("sameFile2.yaml");
 
         String expected = """
                 {
@@ -27,14 +27,14 @@ public class DifferTest {
                     vegetable: false
                 }""";
 
-        String result = Differ.generate(filePath1, filePath2);
+        String result = Parser.generate(filePath1, filePath2);
         assertEquals(expected, result);
     }
 
     @Test
     public void generateDifferentFilesTest() throws IOException {
-        var filePath1 = getFixturePath("differentFile1.json");
-        var filePath2 = getFixturePath("differentFile2.json");
+        var filePath1 = getFixturePath("differentFile1.yaml");
+        var filePath2 = getFixturePath("differentFile2.yaml");
 
         String expected = """
                 {
@@ -46,14 +46,14 @@ public class DifferTest {
                   + verbose: true
                 }""";
 
-        String result = Differ.generate(filePath1, filePath2);
+        String result = Parser.generate(filePath1, filePath2);
         assertEquals(expected, result);
     }
 
     @Test
     public void generateWithEmptyFileTest() throws IOException {
-        var filePath1 = getFixturePath("differentFile2.json");
-        var filePath2 = getFixturePath("emptyFile.json");
+        var filePath1 = getFixturePath("differentFile2.yaml");
+        var filePath2 = getFixturePath("emptyFile.yaml");
 
         String expected = """
                 {
@@ -62,7 +62,7 @@ public class DifferTest {
                   - verbose: true
                 }""";
 
-        String result = Differ.generate(filePath1, filePath2);
+        String result = Parser.generate(filePath1, filePath2);
         assertEquals(expected, result);
     }
 }
