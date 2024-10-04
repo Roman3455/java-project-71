@@ -1,0 +1,6 @@
+{
+    color: Red
+    fruit: Apple
+    size: 10
+    vegetable: false
+}

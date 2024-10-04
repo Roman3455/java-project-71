@@ -3,66 +3,54 @@ package hexlet.code;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
 
-    private static String getFixturePath(String fileName) {
-        return Paths.get("src", "test", "resources", "fixtures", fileName)
-                .toAbsolutePath().normalize().toString();
+    private static String getActual(String filename1, String filename2) throws IOException {
+        var filepath1 = getFixturePath(filename1).toString();
+        var filepath2 = getFixturePath(filename2).toString();
+        return Differ.generate(filepath1, filepath2);
+    }
+
+    private static String getExpected(String filename) throws IOException {
+        var filepath = getFixturePath(filename);
+        return Files.readString(filepath);
+    }
+
+    private static Path getFixturePath(String filename) {
+        return Paths.get("src", "test", "resources", "fixtures", filename)
+                .toAbsolutePath().normalize();
     }
 
     @Test
     public void generateSameFilesTest() throws IOException {
-        var filePath1 = getFixturePath("sameFile1.json");
-        var filePath2 = getFixturePath("sameFile2.json");
-
-        String expected = """
-                {
-                    color: Red
-                    fruit: Apple
-                    size: 10
-                    vegetable: false
-                }""";
-
-        String result = Differ.generate(filePath1, filePath2);
-        assertEquals(expected, result);
+        String actualJson = getActual("sameJsonFile1.json", "sameJsonFile2.json");
+        String actualYaml = getActual("sameYamlFile1.yaml", "sameYamlFile2.yaml");
+        String expected = getExpected("sameStylishResult");
+        assertEquals(expected, actualJson);
+        assertEquals(expected, actualYaml);
     }
 
     @Test
     public void generateDifferentFilesTest() throws IOException {
-        var filePath1 = getFixturePath("differentFile1.json");
-        var filePath2 = getFixturePath("differentFile2.json");
-
-        String expected = """
-                {
-                  - follow: false
-                    host: hexlet.io
-                  - proxy: 123.234.53.22
-                  - timeout: 50
-                  + timeout: 20
-                  + verbose: true
-                }""";
-
-        String result = Differ.generate(filePath1, filePath2);
-        assertEquals(expected, result);
+        String actualJson = getActual("diffJsonFile1.json", "diffJsonFile2.json");
+        String actualYaml = getActual("diffYamlFile1.yaml", "diffYamlFile2.yaml");
+        String expected = getExpected("diffStylishResult");
+        assertEquals(expected, actualJson);
+        assertEquals(expected, actualYaml);
     }
 
     @Test
     public void generateWithEmptyFileTest() throws IOException {
-        var filePath1 = getFixturePath("differentFile2.json");
-        var filePath2 = getFixturePath("emptyFile.json");
-
-        String expected = """
-                {
-                  - host: hexlet.io
-                  - timeout: 20
-                  - verbose: true
-                }""";
-
-        String result = Differ.generate(filePath1, filePath2);
-        assertEquals(expected, result);
+        String actualJson = getActual("emptyJsonFile.json", "emptyJsonFile.json");
+        String actualYaml = getActual("emptyYamlFile.yaml", "emptyYamlFile.yaml");
+        String expected = getExpected("emptyStylishResult");
+        assertEquals(expected, actualJson);
+        assertEquals(expected, actualYaml);
     }
 }
