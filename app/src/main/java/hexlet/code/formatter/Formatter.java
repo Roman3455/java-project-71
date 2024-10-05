@@ -5,11 +5,18 @@ import hexlet.code.utils.ChangeRecord;
 import java.util.List;
 
 public class Formatter {
-    public static String format(String format, List<ChangeRecord> listOfDifferences) {
-        if (format.equals("stylish")) {
-            return Stylish.output(listOfDifferences);
-        } else {
-            return Plain.output(listOfDifferences);
+    public static String format(String format, List<ChangeRecord> listOfDifferences) throws Exception {
+        switch (format) {
+            case "stylish" -> {
+                return Stylish.output(listOfDifferences);
+            }
+            case "plain" -> {
+                return Plain.output(listOfDifferences);
+            }
+            case "json" -> {
+                return Json.output(listOfDifferences);
+            }
+            default -> throw new Exception("Format: " + format + " not supported");
         }
     }
 }

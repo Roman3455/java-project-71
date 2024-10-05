@@ -30,7 +30,7 @@ public class FileUtils {
 
     public static String getExtension(String filepath) throws IOException {
         var filenameParts = getAbsolutePath(filepath).getFileName().toString().split("\\.");
-        var extension = filenameParts[filenameParts.length - 1].toLowerCase();
+        var extension = filenameParts[filenameParts.length - 1];
 
         if (!ACCEPTABLE_EXTENSIONS.contains(extension)) {
             throw new IllegalArgumentException("File format is not supported");

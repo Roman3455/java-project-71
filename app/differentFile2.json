@@ -1,5 +1,6 @@
 {
-  "timeout": 20,
-  "verbose": true,
-  "host": "hexlet.io"
+  "fruit": "Apple",
+  "size": 10,
+  "color": "Red",
+  "vegetable": false
 }

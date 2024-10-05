@@ -5,16 +5,27 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestUtils {
 
-    protected static String getActual(String filename1, String filename2, String format) throws IOException {
+    protected static void checkFormat(String filename1, String filename2, String expectedResult, String format)
+            throws Exception {
+        String actualJson = TestUtils.getActual(filename1, filename2, format);
+        String actualYaml = TestUtils.getActual(
+                filename1.replace(".json", ".yaml"),
+                filename2.replace(".json", ".yaml"),
+                format);
+        String expected = TestUtils.getExpected(expectedResult);
+
+        assertEquals(expected, actualJson);
+        assertEquals(expected, actualYaml);
+    }
+
+    protected static String getActual(String filename1, String filename2, String format) throws Exception {
         var filepath1 = getFixturePath(filename1).toString();
         var filepath2 = getFixturePath(filename2).toString();
         return Differ.generate(filepath1, filepath2, format);
-    }
-
-    protected static String getActual(String filename1, String filename2) throws IOException {
-        return getActual(filename1, filename2, "stylish");
     }
 
     protected static String getExpected(String filename) throws IOException {
