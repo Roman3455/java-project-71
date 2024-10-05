@@ -23,7 +23,7 @@ public class FileUtils {
         return absolutePath;
     }
 
-    public static String getFileAsString(String filepath) throws IOException {
+    public static String getContentAsString(String filepath) throws IOException {
         var absolutePath = getAbsolutePath(filepath);
         return Files.readString(absolutePath);
     }
