@@ -1,5 +1,13 @@
 .DEFAULT_GOAL := build-run
 
+ifeq ($(OS),Windows_NT)
+    CLEAR_CMD = cls
+else
+    CLEAR_CMD = clear
+endif
+
+clear:
+	clear
 clean:
 	./gradlew clean
 build:
@@ -14,10 +22,20 @@ report:
 	./gradlew jacocoTestReport
 lint:
 	./gradlew checkstyleMain checkstyleTest
-run-test:
-	./build/install/app/bin/app -f json differentFile1.json differentFile2.json
 
-build-run: clean build installDist lint test report run-dist
-build-test: clean build installDist lint test report run-test
+build-main: clear clean build installDist lint test report run-dist
+
+b-h:
+	clear
+	./build/install/app/bin/app -h
+b-s:
+	clear
+	./build/install/app/bin/app differentFile1.json differentFile2.json
+b-p:
+	clear
+	./build/install/app/bin/app -f plain differentFile1.json differentFile2.json
+b-j:
+	clear
+	./build/install/app/bin/app -f json differentFile1.json differentFile2.json
 
 .PHONY: build

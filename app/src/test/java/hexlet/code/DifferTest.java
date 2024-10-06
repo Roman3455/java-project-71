@@ -2,6 +2,10 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DifferTest {
 
     @Test
@@ -23,5 +27,14 @@ public class DifferTest {
         TestUtils.checkFormat("sameFile.json", "sameFile.json", "sameStylishResult", "stylish");
         TestUtils.checkFormat("sameFile.json", "sameFile.json", "emptyPlainResult", "plain");
         TestUtils.checkFormat("sameFile.json", "sameFile.json", "sameJsonResult", "json");
+    }
+
+    @Test
+    public void generateWithDefaultFormatTest() throws Exception {
+        var actual = Differ.generate(
+                TestUtils.getFixturePath("diffFile1.json").toString(),
+                TestUtils.getFixturePath("diffFile2.json").toString());
+        var expected = Files.readString(TestUtils.getFixturePath("diffStylishResult"));
+        assertEquals(expected, actual);
     }
 }

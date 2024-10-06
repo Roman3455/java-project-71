@@ -5,7 +5,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 @Command(name = "gendiff",
@@ -33,13 +32,12 @@ public class App implements Callable<Integer> {
     private String filepath2;
 
     @Override
-    public Integer call() throws IOException {
-        // todo Дополнить блок try-catch
+    public Integer call() {
         try {
             System.out.println(Differ.generate(filepath1, filepath2, format));
             return 0;
         } catch (Exception e) {
-            System.out.println("File does not exist or the filepath is incorrect");
+            System.out.println(e.getMessage());
             return 1;
         }
     }
