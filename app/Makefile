@@ -23,7 +23,7 @@ report:
 lint:
 	./gradlew checkstyleMain checkstyleTest
 
-build-main: clear clean build installDist lint test report run-dist
+build-run: clear clean build installDist lint test report run-dist
 
 b-h:
 	clear
