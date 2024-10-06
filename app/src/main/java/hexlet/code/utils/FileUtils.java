@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileUtils {
     // todo Список создан для предполагаемого расширения форматов (как будет реализовано расширение?)
-    private static final List<String> ACCEPTABLE_EXTENSIONS = List.of("json", "yaml");
+    private static final List<String> ACCEPTABLE_EXTENSIONS = List.of("json", "yaml", "yml");
 
     public static Path getAbsolutePath(String filepath) throws IOException {
         if (filepath == null || filepath.trim().isEmpty()) {
