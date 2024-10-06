@@ -6,8 +6,6 @@
 #    CLEAR_CMD = clear
 #endif
 
-clear:
-	clear
 clean:
 	./gradlew clean
 build:
@@ -23,19 +21,15 @@ report:
 lint:
 	./gradlew checkstyleMain checkstyleTest
 
-build-run: clear clean build installDist lint test report run-dist
+build-run: clean build installDist lint test report run-dist
 
 b-h:
-	clear
 	./build/install/app/bin/app -h
 b-s:
-	clear
 	./build/install/app/bin/app differentFile1.json differentFile2.json
 b-p:
-	clear
 	./build/install/app/bin/app -f plain differentFile1.json differentFile2.json
 b-j:
-	clear
 	./build/install/app/bin/app -f json differentFile1.json differentFile2.json
 
 .PHONY: build
