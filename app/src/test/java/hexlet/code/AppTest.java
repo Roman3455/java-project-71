@@ -6,7 +6,7 @@ import picocli.CommandLine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AppTest {
+public final class AppTest {
     private App app;
 
     @BeforeEach
