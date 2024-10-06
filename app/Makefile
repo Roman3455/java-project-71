@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := build-run
 
-ifeq ($(OS),Windows_NT)
-    CLEAR_CMD = cls
-else
-    CLEAR_CMD = clear
-endif
+#ifeq ($(OS),Windows_NT)
+#    CLEAR_CMD = cls
+#else
+#    CLEAR_CMD = clear
+#endif
 
 clear:
 	clear
