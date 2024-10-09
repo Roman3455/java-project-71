@@ -3,27 +3,41 @@ package hexlet.code;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import hexlet.code.utils.DataUtils;
-import hexlet.code.utils.FileUtils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 public class Parser {
-    // todo как будет производиться расширение под новые форматы в реальных проектах
-    public static Map<String, Object> getDataInMap(String filepath) throws IOException {
+    private static final List<String> ACCEPTABLE_EXTENSIONS = List.of("json", "yaml", "yml");
 
-        var extension = FileUtils.getExtension(filepath);
-        var content = FileUtils.getContentAsString(filepath);
+    public static Map<String, Object> parse(String filepath) throws IOException {
+
+        Path absolutePath = FileSystems.getDefault().getPath(filepath.trim()).toAbsolutePath().normalize();
+        if (!Files.exists(absolutePath)) {
+            throw new FileNotFoundException("File or directory not found");
+        }
+
+        var filename = absolutePath.getFileName().toString().split("\\.");
+
+        var extension = filename[filename.length - 1];
+        if (!ACCEPTABLE_EXTENSIONS.contains(extension)) {
+            throw new IllegalArgumentException("File format is not supported");
+        }
+
+        var content = Files.readString(absolutePath);
 
         ObjectMapper objectMapper;
         objectMapper = switch (extension) {
             case "json" -> new ObjectMapper();
             default -> new ObjectMapper(new YAMLFactory());
         };
-        var dataMap = objectMapper.readValue(content, new TypeReference<Map<String, Object>>() {
-        });
 
-        return DataUtils.writeNullAsValue(dataMap);
+        return objectMapper.readValue(content, new TypeReference<>() {
+        });
     }
 }

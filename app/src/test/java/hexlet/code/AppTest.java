@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class AppTest {
@@ -14,11 +16,16 @@ public final class AppTest {
         app = new App();
     }
 
+    private static String getFixturePath(String filename) {
+        return Paths.get("src", "test", "resources", "fixtures", filename)
+                .toAbsolutePath().normalize().toString();
+    }
+
     @Test
     void mainMethodExit0Test() {
         String[] args = {"-f", "plain",
-                TestUtils.getFixturePath("diffFile1.json").toString(),
-                TestUtils.getFixturePath("diffFile1.json").toString()};
+                getFixturePath("diffFile1.json"),
+                getFixturePath("diffFile1.json")};
 
         CommandLine commandLine = new CommandLine(app);
         int exitCode = commandLine.execute(args);
@@ -29,8 +36,8 @@ public final class AppTest {
     @Test
     void mainMethodExit1Test() {
         String[] args = {"-f", "plain",
-                TestUtils.getFixturePath("diffFile1.json").toString(),
-                TestUtils.getFixturePath("diffFile.json").toString()};
+                getFixturePath("diffFile1.json"),
+                getFixturePath("diffFile.json")};
 
         CommandLine commandLine = new CommandLine(app);
         int exitCode = commandLine.execute(args);

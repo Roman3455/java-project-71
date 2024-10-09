@@ -1,1 +1,1 @@
-[{"key":"color","newValue":"Red","oldValue":"Red","state":"NONE"},{"key":"fruit","newValue":"Apple","oldValue":"Apple","state":"NONE"},{"key":"size","newValue":10,"oldValue":10,"state":"NONE"},{"key":"vegetable","newValue":false,"oldValue":false,"state":"NONE"}]
+[{"newValue":"Red","oldValue":"Red","state":"None","key":"color"},{"newValue":"Apple","oldValue":"Apple","state":"None","key":"fruit"},{"newValue":10,"oldValue":10,"state":"None","key":"size"},{"newValue":false,"oldValue":false,"state":"None","key":"vegetable"}]

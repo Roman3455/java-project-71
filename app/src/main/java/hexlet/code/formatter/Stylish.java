@@ -1,42 +1,44 @@
 package hexlet.code.formatter;
 
-import hexlet.code.utils.ChangeRecord;
-
 import java.util.List;
+import java.util.Map;
 
 public class Stylish {
     private static final String NONE = "    ";
     private static final String REMOVED = "  - ";
     private static final String ADDED = "  + ";
 
-    public static String output(List<ChangeRecord> listOfDifferences) {
+    public static String output(List<Map<String, Object>> differList) {
         StringBuilder result = new StringBuilder("{\n");
 
-        listOfDifferences.forEach(key -> {
-            switch (key.state()) {
-                case NONE:
-                    appendChange(result, NONE, key.key(), key.newValue());
+        differList.forEach(map -> {
+            var state = (String) map.get("state");
+
+            switch (state) {
+                case "None":
+                    appendChange(result, NONE, map.get("key"), map.get("newValue"));
                     break;
-                case REMOVED:
-                    appendChange(result, REMOVED, key.key(), key.oldValue());
+                case "Removed":
+                    appendChange(result, REMOVED, map.get("key"), map.get("oldValue"));
                     break;
-                case ADDED:
-                    appendChange(result, ADDED, key.key(), key.newValue());
+                case "Added":
+                    appendChange(result, ADDED, map.get("key"), map.get("newValue"));
                     break;
                 default:
-                    appendChange(result, REMOVED, key.key(), key.oldValue());
-                    appendChange(result, ADDED, key.key(), key.newValue());
+                    appendChange(result, REMOVED, map.get("key"), map.get("oldValue"));
+                    appendChange(result, ADDED, map.get("key"), map.get("newValue"));
             }
         });
         result.append("}");
+
         return result.toString();
     }
 
-    private static void appendChange(StringBuilder result, String prefix, String key, Object value) {
+    private static void appendChange(StringBuilder result, String prefix, Object key, Object value) {
         result.append(prefix)
                 .append(key)
                 .append(": ")
-                .append(value.toString())
+                .append(value)
                 .append("\n");
     }
 }

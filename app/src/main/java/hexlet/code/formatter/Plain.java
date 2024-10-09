@@ -1,34 +1,33 @@
 package hexlet.code.formatter;
 
-import hexlet.code.utils.ChangeRecord;
-
 import java.util.List;
 import java.util.Map;
 
 public class Plain {
 
-    public static String output(List<ChangeRecord> listOfDifferences) {
+    public static String output(List<Map<String, Object>> differList) {
         StringBuilder result = new StringBuilder();
 
-        listOfDifferences.forEach(key -> {
-            if (!key.state().equals(ChangeRecord.State.NONE)) {
+        differList.forEach(map -> {
+            if (!map.get("state").equals("None")) {
                 result.append("Property '")
-                        .append(key.key())
+                        .append(map.get("key"))
                         .append("' was ")
                         .append(
-                            switch (key.state()) {
-                                case CHANGED -> "updated";
-                                case ADDED -> "added";
+                            switch ((String) map.get("state")) {
+                                case "Changed" -> "updated";
+                                case "Added" -> "added";
                                 default -> "removed";
                             });
-                switch (key.state()) {
-                    case CHANGED -> result.append(". From ")
-                            .append(outputValue(key.oldValue()))
+
+                switch ((String) map.get("state")) {
+                    case "Changed" -> result.append(". From ")
+                            .append(outputValue(map.get("oldValue")))
                             .append(" to ")
-                            .append(outputValue(key.newValue()))
+                            .append(outputValue(map.get("newValue")))
                             .append("\n");
-                    case ADDED -> result.append(" with value: ")
-                            .append(outputValue(key.newValue()))
+                    case "Added" -> result.append(" with value: ")
+                            .append(outputValue(map.get("newValue")))
                             .append("\n");
                     default -> result.append("\n");
                 }
@@ -38,6 +37,7 @@ public class Plain {
         if (!result.isEmpty()) {
             result.deleteCharAt(result.length() - 1);
         }
+
         return result.toString();
     }
 
@@ -45,9 +45,11 @@ public class Plain {
         if (type instanceof List<?> || type instanceof Map<?, ?>) {
             return "[complex value]";
         }
+
         if (type instanceof String && !type.equals("null")) {
             return "'" + type + "'";
         }
+
         return type;
     }
 }
