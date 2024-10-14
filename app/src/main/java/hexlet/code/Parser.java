@@ -34,7 +34,8 @@ public class Parser {
         ObjectMapper objectMapper;
         objectMapper = switch (extension) {
             case "json" -> new ObjectMapper();
-            default -> new ObjectMapper(new YAMLFactory());
+            case "yaml", "yml" -> new ObjectMapper(new YAMLFactory());
+            default -> throw new IllegalArgumentException("File format is not supported: " + extension);
         };
 
         return objectMapper.readValue(content, new TypeReference<>() {
